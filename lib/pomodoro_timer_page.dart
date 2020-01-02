@@ -17,18 +17,18 @@ enum Status {
 
 class Pomodoro {
   Pomodoro({
-    this.targetTime,
+    this.time,
     this.status,
     this.count,
   });
 
-  Duration targetTime;
+  Duration time;
   Status status;
   int count;
 
   void setParam({Duration time, Status status}) {
-    targetTime = time;
-    status = status;
+    this.time = time;
+    this.status = status;
   }
 }
 
@@ -43,14 +43,14 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
   Duration _timeLeft = const Duration();
 
   final Pomodoro _pomodoro = Pomodoro(
-    targetTime: workTime,
+    time: workTime,
     status: Status.work,
     count: 0,
   );
 
   @override
   void initState() {
-    _pomodoro.targetTime = workTime;
+    _pomodoro.time = workTime;
     _sw = Stopwatch();
     _timer = Timer.periodic(const Duration(milliseconds: 50), _callback);
     super.initState();
@@ -64,14 +64,14 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
   }
 
   void _callback(Timer timer) {
-    if (_sw.elapsed > _pomodoro.targetTime) {
+    if (_sw.elapsed > _pomodoro.time) {
       setState(() {
         _changeNextStatus();
       });
       return;
     }
 
-    final Duration _newTimeLeft = _pomodoro.targetTime - _sw.elapsed;
+    final Duration _newTimeLeft = _pomodoro.time - _sw.elapsed;
     if (_newTimeLeft.inSeconds != _timeLeft.inSeconds) {
       setState(() {
         _timeLeft = _newTimeLeft;
@@ -151,7 +151,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
         CircularPercentIndicator(
           radius: 300.0,
           lineWidth: 10.0,
-          percent: _timeLeft.inSeconds / _pomodoro.targetTime.inSeconds,
+          percent: _timeLeft.inSeconds / _pomodoro.time.inSeconds,
           center: displayTimeString(),
           progressColor: _getColor(),
         ),

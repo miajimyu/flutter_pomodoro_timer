@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
             title,
             style: TextStyle(color: Colors.black),
           ),
+          backgroundColor: Colors.white,
         ),
         body: PomodoroTimerPage(),
       ),
