@@ -1,4 +1,4 @@
-name: deploy
+name: github pages
 
 on:
   push:
@@ -6,23 +6,23 @@ on:
       - master
 
 jobs:
-  build:
-    name: Flutter build and deploy
+  build-deploy:
     runs-on: ubuntu-18.04
-
     steps:
     - uses: actions/checkout@master
-    - name: Say start a build
-      run: echo flutter build web
-    - uses: subosito/flutter-action@v1
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v1
       with:
         channel: 'beta'
 
-    - name: Run a flutter build and deploy
+    - name: Install
       run: |
         flutter config --enable-web
         flutter pub get
-        flutter build web
+
+    - name: Build
+      run: flutter build web
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v2.8.0
